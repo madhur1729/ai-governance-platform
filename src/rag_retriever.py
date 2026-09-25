@@ -9,7 +9,8 @@ from anthropic import Anthropic
 # from sentence_transformers import SentenceTransformer
 # embedder = SentenceTransformer('all-MiniLM-L6-v2')
 
-client = Anthropic()
+LLM_AVAILABLE = bool(os.environ.get("ANTHROPIC_API_KEY"))
+client = Anthropic() if LLM_AVAILABLE else None
 embedder = None  # Using simple keyword matching instead of embeddings
 
 PII_PATTERNS = {
@@ -210,37 +211,53 @@ User Question: {query}
 
 Please provide a helpful and accurate response."""
 
-    # Generate response
-    try:
-        response = client.messages.create(
-            model="claude-3-5-sonnet-20241022",
-            max_tokens=500,
-            messages=[
-                {"role": "user", "content": full_prompt}
-            ]
-        )
+    # Generate response (falls back to a mock, source-grounded answer if no API key
+    # is configured or the call fails, so the demo never breaks on a missing key)
+    generated_response = None
+    used_mock = False
 
-        generated_response = response.content[0].text
+    if LLM_AVAILABLE:
+        try:
+            response = client.messages.create(
+                model="claude-3-5-sonnet-20241022",
+                max_tokens=500,
+                messages=[
+                    {"role": "user", "content": full_prompt}
+                ]
+            )
+            generated_response = response.content[0].text
+        except Exception:
+            used_mock = True
+    else:
+        used_mock = True
 
-        # Validate response
-        validation = retriever.validate_response(generated_response, source_chunks)
+    if used_mock:
+        generated_response = _mock_rag_response(query, chunks)
 
-        return {
-            "query": query,
-            "response": generated_response,
-            "sources": chunks,
-            "validation": validation,
-            "is_safe": len(validation["unsourced_pii"]) == 0
-        }
+    # Validate response
+    validation = retriever.validate_response(generated_response, source_chunks)
 
-    except Exception as e:
-        return {
-            "query": query,
-            "response": f"Error generating response: {str(e)}",
-            "sources": chunks,
-            "validation": {},
-            "is_safe": False
-        }
+    return {
+        "query": query,
+        "response": generated_response,
+        "sources": chunks,
+        "validation": validation,
+        "is_safe": len(validation["unsourced_pii"]) == 0,
+        "mock_mode": used_mock
+    }
+
+
+def _mock_rag_response(query: str, chunks: List[Dict[str, Any]]) -> str:
+    """Deterministic, source-grounded placeholder used when no LLM is available."""
+    if not chunks:
+        return "[MOCK RESPONSE - no LLM key configured] No relevant sources were found for this query."
+
+    top = chunks[0]
+    excerpt = top["content"][:280].rsplit(" ", 1)[0]
+    return (
+        f"[MOCK RESPONSE - no LLM key configured] Based on '{top['document']}' "
+        f"(confidence {top['confidence']}): {excerpt}..."
+    )
 
 
 # Test/demo functions

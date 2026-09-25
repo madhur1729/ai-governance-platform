@@ -19,7 +19,7 @@ def show():
     """)
 
     # Initialize scorer and version manager
-    if "scorer" not in st.session_state:
+    if st.session_state.get("scorer") is None:
         st.session_state.scorer = OnboardingScorer("config/checklist_rules.yaml")
         st.session_state.version_manager = VersionManager()
 

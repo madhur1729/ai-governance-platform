@@ -18,7 +18,7 @@ def show():
     """)
 
     # Initialize retriever
-    if "retriever" not in st.session_state:
+    if st.session_state.get("retriever") is None:
         with st.spinner("Loading knowledge base..."):
             st.session_state.retriever = RAGRetriever("data/knowledge_base")
 
