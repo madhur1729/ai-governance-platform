@@ -1,0 +1,82 @@
+[
+  {
+    "id": "EMP001",
+    "name": "Alice Johnson",
+    "department": "Engineering",
+    "role": "Senior Software Engineer",
+    "salary": 145000,
+    "ssn": "555-12-3456",
+    "pto_balance": 15,
+    "email": "alice.johnson@company.com"
+  },
+  {
+    "id": "EMP002",
+    "name": "Bob Smith",
+    "department": "Sales",
+    "role": "Account Executive",
+    "salary": 125000,
+    "ssn": "555-23-4567",
+    "pto_balance": 12,
+    "email": "bob.smith@company.com"
+  },
+  {
+    "id": "EMP003",
+    "name": "Carol Davis",
+    "department": "HR",
+    "role": "HR Manager",
+    "salary": 95000,
+    "ssn": "555-34-5678",
+    "pto_balance": 20,
+    "email": "carol.davis@company.com"
+  },
+  {
+    "id": "EMP004",
+    "name": "David Wilson",
+    "department": "Finance",
+    "role": "Financial Analyst",
+    "salary": 105000,
+    "ssn": "555-45-6789",
+    "pto_balance": 18,
+    "email": "david.wilson@company.com"
+  },
+  {
+    "id": "EMP005",
+    "name": "Emma Brown",
+    "department": "Engineering",
+    "role": "ML Engineer",
+    "salary": 155000,
+    "ssn": "555-56-7890",
+    "pto_balance": 14,
+    "email": "emma.brown@company.com"
+  },
+  {
+    "id": "EMP006",
+    "name": "Frank Martinez",
+    "department": "Operations",
+    "role": "Operations Manager",
+    "salary": 115000,
+    "ssn": "555-67-8901",
+    "pto_balance": 16,
+    "email": "frank.martinez@company.com"
+  },
+  {
+    "id": "EMP007",
+    "name": "Grace Lee",
+    "department": "Product",
+    "role": "Product Manager",
+    "salary": 135000,
+    "ssn": "555-78-9012",
+    "pto_balance": 17,
+    "email": "grace.lee@company.com"
+  },
+  {
+    "id": "EMP008",
+    "name": "Henry Zhang",
+    "department": "Engineering",
+    "role": "DevOps Engineer",
+    "salary": 140000,
+    "ssn": "555-89-0123",
+    "pto_balance": 19,
+    "email": "henry.zhang@company.com"
+  }
+]

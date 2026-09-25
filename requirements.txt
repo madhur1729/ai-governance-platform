@@ -1,0 +1,17 @@
+streamlit>=1.28.0
+anthropic>=0.28.0
+pandas>=2.0.0
+pyyaml>=6.0
+numpy>=1.24.0
+jinja2>=3.1.0
+
+# Commented out: Heavy dependencies (reserved for production features)
+# sentence-transformers - for real embeddings-based RAG
+# huggingface-hub - for HuggingFace models
+# transformers - for transformer models
+# torch - for ML models
+# For now using simple keyword matching in RAG, which works without these
+
+# Commented out: LangChain/LangGraph (reserved for production multi-agent scenarios)
+# langchain==0.1.9
+# langgraph==0.0.20

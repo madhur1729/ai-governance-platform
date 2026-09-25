@@ -1,0 +1,66 @@
+checklist_rules:
+  - id: "tool_scope_check"
+    name: "Tool Scope Validation"
+    description: "Validate that all registered tools are in approved whitelist"
+    weight: 25
+    rule_fn: "validate_tool_scope"
+    impact: "tool_scope"
+
+  - id: "data_classification"
+    name: "Data Access Classification"
+    description: "Classify data accessed (PII, PHI, PCI, internal, public)"
+    weight: 30
+    rule_fn: "classify_data_access"
+    impact: "data_tier"
+
+  - id: "privilege_check"
+    name: "Privilege Escalation Check"
+    description: "Flag if agent requires approval/escalation based on tools"
+    weight: 20
+    rule_fn: "check_privilege_escalation"
+    impact: "escalation_required"
+
+  - id: "over_scope_detection"
+    name: "Over-Scoping Detection"
+    description: "Flag tools that are over-scoped for declared use case"
+    weight: 15
+    rule_fn: "detect_over_scope"
+    impact: "over_scoped_tools"
+
+  - id: "vendor_contract_check"
+    name: "Vendor DPA & Contract"
+    description: "Verify vendor agreement exists (mocked as auto-pass)"
+    weight: 10
+    rule_fn: "check_vendor_contract"
+    impact: "vendor_compliant"
+
+approved_tools:
+  - "lookup_employee"
+  - "update_pto_balance"
+  - "send_email"
+  - "get_pto_policy"
+  - "query_benefits"
+
+tool_risk_levels:
+  read_tools:
+    - "lookup_employee"
+    - "get_pto_policy"
+    - "query_benefits"
+  write_tools:
+    - "update_pto_balance"
+  external_tools:
+    - "send_email"
+
+data_classification:
+  PII:
+    fields: ["SSN", "salary", "address", "phone"]
+    tier: "HIGH"
+    requires_approval: true
+  internal:
+    fields: ["department", "role", "pto_balance"]
+    tier: "MEDIUM"
+    requires_approval: false
+  public:
+    fields: ["name", "title"]
+    tier: "LOW"
+    requires_approval: false

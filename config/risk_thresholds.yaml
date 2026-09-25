@@ -1,0 +1,34 @@
+risk_tiers:
+  LOW:
+    score_range: [0, 30]
+    description: "Read-only, public data, no escalation"
+    auto_approve: true
+    latency_budget_ms: 10
+
+  MEDIUM:
+    score_range: [31, 70]
+    description: "Internal data access or single write tool"
+    auto_approve: false
+    requires_review: true
+    latency_budget_ms: 50
+
+  HIGH:
+    score_range: [71, 100]
+    description: "PII/PHI access, external tools, HR-adjacent"
+    auto_approve: false
+    requires_escalation: true
+    latency_budget_ms: 200
+
+injection_detection_thresholds:
+  heuristic_block_score: 0.8
+  semantic_escalation_score: 0.6
+  llm_judge_threshold: 0.5
+
+response_validation_thresholds:
+  pii_redaction_confidence: 0.7
+  source_match_threshold: 0.6
+
+audit_sampling:
+  LOW: 0.1
+  MEDIUM: 0.3
+  HIGH: 0.8
